@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.demolistiview.R;
@@ -60,6 +61,7 @@ public class ListViewAdapter extends BaseAdapter {
             holder.textViewPosition = view.findViewById(R.id.textViewPosition);
             holder.textViewImageLink = view.findViewById(R.id.textViewImageLink);
             holder.circleImageView = view.findViewById(R.id.circleImageView);
+            holder.squareImageView = view.findViewById(R.id.squareImageView);
             view.setTag(holder);
         } else {
             holder = (ViewHolder) view.getTag();
@@ -73,7 +75,16 @@ public class ListViewAdapter extends BaseAdapter {
         } else {
             holder.textViewImageLink.setText(Html.fromHtml(text));
         }
-        mPicasso.load(imageList.get(position)).placeholder(R.drawable.ic_launcher).error(R.drawable.ic_launcher).into(holder.circleImageView);
+
+        if (position % 2 == 0) {
+            holder.circleImageView.setVisibility(View.VISIBLE);
+            holder.squareImageView.setVisibility(View.GONE);
+            mPicasso.load(imageList.get(position)).placeholder(R.drawable.ic_launcher).error(R.drawable.ic_launcher).into(holder.circleImageView);
+        } else {
+            holder.circleImageView.setVisibility(View.GONE);
+            holder.squareImageView.setVisibility(View.VISIBLE);
+            mPicasso.load(imageList.get(position)).placeholder(R.drawable.ic_launcher).error(R.drawable.ic_launcher).into(holder.squareImageView);
+        }
 
         return view;
     }
@@ -81,5 +92,6 @@ public class ListViewAdapter extends BaseAdapter {
     public class ViewHolder {
         TextView textViewPosition, textViewImageLink;
         CircleImageView circleImageView;
+        ImageView squareImageView;
     }
 }

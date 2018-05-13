@@ -7,6 +7,7 @@ import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.demolistiview.R;
@@ -28,12 +29,14 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView textViewPosition, textViewImageLink;
         public CircleImageView circleImageView;
+        public ImageView squareImageView;
 
         public MyViewHolder(View view) {
             super(view);
             textViewPosition = view.findViewById(R.id.textViewPosition);
             textViewImageLink = view.findViewById(R.id.textViewImageLink);
             circleImageView = view.findViewById(R.id.circleImageView);
+            squareImageView = view.findViewById(R.id.squareImageView);
         }
     }
 
@@ -42,7 +45,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         this.imageList = imageList;
         mPicasso = Picasso.get();
         mPicasso.setIndicatorsEnabled(true);
-
     }
 
     @Override
@@ -64,7 +66,16 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         } else {
             holder.textViewImageLink.setText(Html.fromHtml(text));
         }
-        mPicasso.load(imageList.get(position)).placeholder(R.drawable.ic_launcher).error(R.drawable.ic_launcher).into(holder.circleImageView);
+        if (position % 2 == 0) {
+            holder.circleImageView.setVisibility(View.VISIBLE);
+            holder.squareImageView.setVisibility(View.GONE);
+            mPicasso.load(imageList.get(position)).placeholder(R.drawable.ic_launcher).error(R.drawable.ic_launcher).into(holder.circleImageView);
+        } else {
+            holder.circleImageView.setVisibility(View.GONE);
+            holder.squareImageView.setVisibility(View.VISIBLE);
+            mPicasso.load(imageList.get(position)).placeholder(R.drawable.ic_launcher).error(R.drawable.ic_launcher).into(holder.squareImageView);
+        }
+
     }
 
     @Override
